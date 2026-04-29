@@ -9,10 +9,12 @@ const {
   replaceNote,
   updateNote,
   deleteNote,
+  deleteBulkNotes,
 } = require("../controllers/note.controller");
 
 // CRUD bulk
 router.post("/bulk", createBulkNotes);
+router.delete("/bulk", deleteBulkNotes);
 
 // CRUD single-item routes
 router.post("/", createNote);
