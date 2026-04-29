@@ -125,9 +125,60 @@ const getNoteById = async (req, res) => {
   }
 };
 
+// @desc    Full replace a note
+// @route   PUT /api/notes/:id
+// @access  Public
+const replaceNote = async (req, res) => {
+  try {
+    const { title, content, category, isPinned } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({
+        success: false,
+        message: "Title and content are required",
+        data: null,
+      });
+    }
+
+    const note = await Note.findOneAndReplace(
+      { _id: req.params.id },
+      { title, content, category, isPinned },
+      { new: true, runValidators: true }
+    );
+
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found",
+        data: null,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Note replaced successfully",
+      data: note,
+    });
+  } catch (error) {
+    if (error.kind === "ObjectId") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid note ID",
+        data: null,
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
 module.exports = {
   createNote,
   createBulkNotes,
   getAllNotes,
   getNoteById,
+  replaceNote,
 };
