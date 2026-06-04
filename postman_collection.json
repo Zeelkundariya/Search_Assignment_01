@@ -1,0 +1,330 @@
+{
+  "info": {
+    "name": "Note Management System",
+    "description": "API collection for the Search Assignment including all CRUD, search, filter, sort, and paginate endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "1. Create Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My First Note\",\n  \"content\": \"This is the content of my first note\",\n  \"category\": \"work\",\n  \"isPinned\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes" ]
+            }
+          }
+        },
+        {
+          "name": "2. Create Bulk Notes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"title\": \"Bulk Note 1\",\n    \"content\": \"Content for bulk note 1\",\n    \"category\": \"personal\"\n  },\n  {\n    \"title\": \"Bulk Note 2\",\n    \"content\": \"Content for bulk note 2\",\n    \"category\": \"others\"\n  }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/bulk",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "bulk" ]
+            }
+          }
+        },
+        {
+          "name": "3. Get All Notes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes" ]
+            }
+          }
+        },
+        {
+          "name": "4. Get Note by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/:id",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", ":id" ],
+              "variable": [
+                { "key": "id", "value": "replace_with_actual_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "5. Replace Note",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Replaced Note\",\n  \"content\": \"This note has been completely replaced.\",\n  \"category\": \"work\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/:id",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", ":id" ],
+              "variable": [
+                { "key": "id", "value": "replace_with_actual_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "6. Partial Update Note",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isPinned\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/:id",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", ":id" ],
+              "variable": [
+                { "key": "id", "value": "replace_with_actual_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "7. Delete Single Note",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/:id",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", ":id" ],
+              "variable": [
+                { "key": "id", "value": "replace_with_actual_id" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "8. Delete Bulk Notes",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"replace_with_actual_id_1\",\n    \"replace_with_actual_id_2\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/bulk",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "bulk" ]
+            }
+          }
+        },
+        {
+          "name": "9. Search Notes by Title",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/search?title=first",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "search" ],
+              "query": [
+                { "key": "title", "value": "first" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "10. Search Notes by Content",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/search/content?content=bulk",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "search", "content" ],
+              "query": [
+                { "key": "content", "value": "bulk" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "11. Search by Title OR Content",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/search/all?query=note",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "search", "all" ],
+              "query": [
+                { "key": "query", "value": "note" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "12. Filter + Sort",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/filter-sort?category=work&sortBy=title&sortOrder=asc",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "filter-sort" ],
+              "query": [
+                { "key": "category", "value": "work" },
+                { "key": "sortBy", "value": "title" },
+                { "key": "sortOrder", "value": "asc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "13. Filter + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/filter-paginate?category=personal&page=1&limit=5",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "filter-paginate" ],
+              "query": [
+                { "key": "category", "value": "personal" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "14. Sort + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/sort-paginate?sortBy=createdAt&sortOrder=desc&page=1&limit=5",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "sort-paginate" ],
+              "query": [
+                { "key": "sortBy", "value": "createdAt" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "15. Search + Filter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/search-filter?query=note&category=work",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "search-filter" ],
+              "query": [
+                { "key": "query", "value": "note" },
+                { "key": "category", "value": "work" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "16. Search + Sort + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/search-sort-paginate?query=note&sortBy=createdAt&sortOrder=desc&page=1&limit=5",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "search-sort-paginate" ],
+              "query": [
+                { "key": "query", "value": "note" },
+                { "key": "sortBy", "value": "createdAt" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "17. Filter + Sort + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/filter-sort-paginate?category=work&sortBy=title&sortOrder=asc&page=1&limit=5",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "filter-sort-paginate" ],
+              "query": [
+                { "key": "category", "value": "work" },
+                { "key": "sortBy", "value": "title" },
+                { "key": "sortOrder", "value": "asc" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "18. Master Query Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notes/query?query=note&category=personal&sortBy=createdAt&sortOrder=desc&page=1&limit=10",
+              "host": [ "{{baseUrl}}" ],
+              "path": [ "api", "notes", "query" ],
+              "query": [
+                { "key": "query", "value": "note" },
+                { "key": "category", "value": "personal" },
+                { "key": "sortBy", "value": "createdAt" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+}
