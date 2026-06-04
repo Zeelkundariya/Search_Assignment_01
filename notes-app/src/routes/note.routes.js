@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { createNote, createBulkNotes, getAllNotes, getNoteById, replaceNote, updateNote, deleteNote, deleteBulkNotes, searchNotesByTitle, searchNotesByContent, searchNotesAll, filterSortNotes, filterPaginateNotes } = require("../controllers/note.controller");
+const { createNote, createBulkNotes, getAllNotes, getNoteById, replaceNote, updateNote, deleteNote, deleteBulkNotes, searchNotesByTitle, searchNotesByContent, searchNotesAll, filterSortNotes, filterPaginateNotes, sortPaginateNotes } = require("../controllers/note.controller");
 
 // CRUD bulk
 router.post("/bulk", createBulkNotes);
 router.delete("/bulk", deleteBulkNotes);
 
 // Search routes (must be before /:id)
+router.get("/sort-paginate", sortPaginateNotes);
 router.get("/filter-paginate", filterPaginateNotes);
 router.get("/filter-sort", filterSortNotes);
 router.get("/search/all", searchNotesAll);
