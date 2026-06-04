@@ -1,6 +1,6 @@
 const Note = require("../models/note.model");
 
-// 1. POST /api/notes — Create a note
+// 1. POST /api/notes — Create a single note in the database
 const createNote = async (req, res) => {
   try {
     const { title, content, category, isPinned } = req.body;
