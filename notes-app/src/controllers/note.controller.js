@@ -391,6 +391,37 @@ const searchNotesAll = async (req, res) => {
   }
 };
 
+// 12. GET /api/notes/filter-sort — Filter + Sort combined
+const filterSortNotes = async (req, res) => {
+  try {
+    const { category, sortBy, sortOrder } = req.query;
+
+    let filter = {};
+    if (category) {
+      filter.category = category;
+    }
+
+    let sort = {};
+    if (sortBy) {
+      sort[sortBy] = sortOrder === "desc" ? -1 : 1;
+    }
+
+    const notes = await Note.find(filter).sort(sort);
+
+    res.status(200).json({
+      success: true,
+      message: "Notes retrieved successfully",
+      data: notes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null
+    });
+  }
+};
+
 module.exports = {
   createNote,
   createBulkNotes,
@@ -402,5 +433,6 @@ module.exports = {
   deleteBulkNotes,
   searchNotesByTitle,
   searchNotesByContent,
-  searchNotesAll
+  searchNotesAll,
+  filterSortNotes
 };
