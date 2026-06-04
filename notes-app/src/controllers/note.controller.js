@@ -295,6 +295,37 @@ const deleteBulkNotes = async (req, res) => {
   }
 };
 
+// 9. GET /api/notes/search — Search by title only
+const searchNotesByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: "Title query parameter is required",
+        data: null
+      });
+    }
+
+    const notes = await Note.find({
+      title: { $regex: title, $options: "i" }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Notes retrieved successfully",
+      data: notes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null
+    });
+  }
+};
+
 module.exports = {
   createNote,
   createBulkNotes,
@@ -303,5 +334,6 @@ module.exports = {
   replaceNote,
   updateNote,
   deleteNote,
-  deleteBulkNotes
+  deleteBulkNotes,
+  searchNotesByTitle
 };
