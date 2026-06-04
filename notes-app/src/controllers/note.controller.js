@@ -530,6 +530,52 @@ const searchFilterNotes = async (req, res) => {
   }
 };
 
+// 16. GET /api/notes/search-sort-paginate — Search + Sort + Pagination
+const searchSortPaginateNotes = async (req, res) => {
+  try {
+    const { query, sortBy, sortOrder, page = 1, limit = 10 } = req.query;
+
+    let filter = {};
+
+    if (query) {
+      filter.$or = [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } }
+      ];
+    }
+
+    let sort = {};
+    if (sortBy) {
+      sort[sortBy] = sortOrder === "desc" ? -1 : 1;
+    }
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const notes = await Note.find(filter).sort(sort).skip(skip).limit(limitNum);
+    const total = await Note.countDocuments(filter);
+
+    res.status(200).json({
+      success: true,
+      message: "Notes retrieved successfully",
+      data: notes,
+      pagination: {
+        total,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(total / limitNum)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null
+    });
+  }
+};
+
 module.exports = {
   createNote,
   createBulkNotes,
@@ -545,5 +591,6 @@ module.exports = {
   filterSortNotes,
   filterPaginateNotes,
   sortPaginateNotes,
-  searchFilterNotes
+  searchFilterNotes,
+  searchSortPaginateNotes
 };
