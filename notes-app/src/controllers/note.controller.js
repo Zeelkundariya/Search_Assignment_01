@@ -326,6 +326,37 @@ const searchNotesByTitle = async (req, res) => {
   }
 };
 
+// 10. GET /api/notes/search/content — Search by content only
+const searchNotesByContent = async (req, res) => {
+  try {
+    const { content } = req.query;
+
+    if (!content) {
+      return res.status(400).json({
+        success: false,
+        message: "Content query parameter is required",
+        data: null
+      });
+    }
+
+    const notes = await Note.find({
+      content: { $regex: content, $options: "i" }
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Notes retrieved successfully",
+      data: notes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null
+    });
+  }
+};
+
 module.exports = {
   createNote,
   createBulkNotes,
@@ -335,5 +366,6 @@ module.exports = {
   updateNote,
   deleteNote,
   deleteBulkNotes,
-  searchNotesByTitle
+  searchNotesByTitle,
+  searchNotesByContent
 };
